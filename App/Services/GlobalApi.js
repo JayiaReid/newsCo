@@ -5,7 +5,7 @@ const api = create({
 
 })
 const apiKey = '?country=us&apiKey=121c0a2c4d354b03acf1500b313fa0d3'
-const getHeadline = api.get('/top-headlines'+apiKey)
+const getHeadline = () => api.get('/top-headlines'+apiKey)
 
 export default {
     getHeadline

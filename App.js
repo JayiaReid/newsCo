@@ -1,29 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView, StyleSheet, View } from 'react-native';
 import Home from './App/Screen/Home';
-import Color from './App/Shared/Color';
+import { ThemeProvider } from './App/context/ThemeContext';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeNav from './App/Navs/HomeNav';
 
 const App = () => {
-  const [theme, setTheme] = React.useState(true);
-
   return (
-    <View 
-      style={[
-        styles.container, 
-        { backgroundColor: theme ? Color.light.background : Color.dark.background }
-      ]}
-    >
-      <Home theme={theme} setTheme={setTheme} />
-    </View>
+    <ThemeProvider>
+      <SafeAreaView style={styles.container}>
+        <NavigationContainer>
+          <HomeNav/>
+        </NavigationContainer>
+        {/* <Home /> */}
+      </SafeAreaView>
+    </ThemeProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 30,
-    // justifyContent: "center",
-    // alignItems: "center"
+    // padding: 30,
+    // backgroundColor: "#000"
   }
 });
 

@@ -1,40 +1,59 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import Slider from '../Components/Home/Slider';
-import Color from '../Shared/Color';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Headline from '../Components/Home/Headline';
+import List from '../Components/Home/List';
+import { useTheme } from '../context/ThemeContext'; 
+import GlobalApi from '../Services/GlobalApi';
 
-const Home = ({ theme, setTheme }) => {
-    return (
-        <View>
-            <View style={styles.h_container}>
-                <Text style={[{ color: theme ? Color.light.primary : Color.dark.primary }, styles.header]}>NewsCo.</Text>
-                {theme? <MaterialIcons onPress={()=>setTheme(!theme)} name="dark-mode" size={30} color={theme ? Color.light.primary : Color.dark.primary} />: <MaterialIcons onPress={()=>setTheme(!theme)} name="light-mode" size={30} color={theme ? Color.light.primary : Color.dark.primary} />}
-            </View>
-{/* category sleader */}
-            <Slider theme={theme}/>
-{/* top headlines */}
-            <Headline theme={theme}/>
-        </View>
-    );
+const Home = () => {
+  const { theme, toggleTheme, isLightTheme } = useTheme();
+  const [headlines, setHeadlines] = React.useState([]);
+
+  React.useEffect(() => {
+    getHeadlineApi();
+  }, []);
+
+  const getHeadlineApi = async () => {
+    const res = (await GlobalApi.getHeadline()).data;
+    setHeadlines(res.articles);
+  };
+
+  return (
+    <ScrollView style={[styles.container, { backgroundColor: theme.background }]}>
+      <View style={styles.h_container}>
+        <Text style={[{ color: theme.primary }, styles.header]}>NewsCo.</Text>
+        <MaterialIcons
+          onPress={toggleTheme}
+          name={isLightTheme ? "dark-mode" : "light-mode"}
+          size={30}
+          color={theme.primary}
+        />
+      </View>
+      <Slider />
+      <Headline headlines={headlines}/>
+      <List headlines={headlines}/>
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
-    h_container: {
-        display: "flex",
-        gap: 2,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        paddingVertical: 20
-    },
-    header: {
-        textAlign: 'left',
-        fontSize: 30,
-        fontWeight: 'bold',
-    },
-
+  container: {
+    flex: 1,
+    // paddingHorizontal: 10,
+    padding: 30
+  },
+  h_container: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  header: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
 });
 
 export default Home;
