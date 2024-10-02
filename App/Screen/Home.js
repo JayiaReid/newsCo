@@ -43,7 +43,7 @@ const Home = () => {
           color={theme.primary}
         />
       </View>
-      <Text style={{fontSize: 20, fontWeight: "bold", color: theme.header}}>Headlines</Text>
+      <Text style={{fontSize: 20, fontWeight: "bold", color: theme.text}}>Headlines</Text>
       <Headline headlines={headlines}/>
       <Slider active={active} setActive={setActive}/>
       <List headlines={everything}/>
