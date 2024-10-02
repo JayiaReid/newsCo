@@ -1,10 +1,10 @@
 import React from 'react';
 import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useTheme } from '../../context/ThemeContext';  // Import useTheme
+import { useTheme } from '../../context/ThemeContext';  
 
-const Slider = () => {
-  const [active, setActive] = React.useState(1);
-  const { theme } = useTheme();  // Use theme from context
+const Slider = ({active, setActive}) => {
+  // const [active, setActive] = React.useState(1);
+  const { theme } = useTheme();  
 
   const list = [
     { id: 1, name: 'Latest' },
@@ -18,19 +18,19 @@ const Slider = () => {
 
   return (
     <View>
-      <FlatList
+      <FlatList style={{marginVertical: 20}}
         horizontal
         data={list}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => setActive(item.id)}>
+          <TouchableOpacity onPress={() => setActive(item.name)}>
             <Text
               style={[
                 {
-                  color: theme.text,  // Use theme for text color
-                  textDecorationLine: active === item.id ? 'underline' : 'none',
+                  color: theme.text,  
+                  textDecorationLine: active === item.name ? 'underline' : 'none',
                   textDecorationStyle: 'dotted',
-                  textDecorationColor: theme.border,  // Use theme for text decoration color
+                  textDecorationColor: theme.border, 
                 },
                 styles.text,
               ]}

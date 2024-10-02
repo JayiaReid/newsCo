@@ -10,13 +10,13 @@ const Headline = ({headlines}) => {
   const nav = useNavigation()
 
   return (
-    <View style={{ marginTop: 30 }}>
+    <View style={{ marginTop: 10 }}>
       <FlatList
         showsHorizontalScrollIndicator={false}
         horizontal
         data={headlines}
         renderItem={({ item }) => (
-          <TouchableOpacity onPress={()=>nav.navigate('news')} style={{ width: Dimensions.get('screen').width * 0.80, marginRight: 15 }}>
+          <TouchableOpacity onPress={()=>nav.navigate('news', {news: item})} style={{ width: Dimensions.get('screen').width * 0.80, marginRight: 15 }}>
             <Image
               source={{ uri: item.urlToImage }}
               style={{ height: Dimensions.get('screen').width * 0.77, borderRadius: 10 }}

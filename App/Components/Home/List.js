@@ -1,9 +1,11 @@
 import React from 'react'
 import { FlatList, Image, Text, TouchableOpacity, View } from 'react-native'
 import { useTheme } from '../../context/ThemeContext'
+import { useNavigation } from '@react-navigation/native'
 
 const List = ({headlines}) => {
   const {theme} = useTheme()
+  const nav = useNavigation()
 
   return (
     <View>
@@ -15,7 +17,7 @@ const List = ({headlines}) => {
         renderItem={({ item }) => (
           <View>
             <View style={{height: 1, backgroundColor: theme.card, marginTop: 10}}/>
-          <TouchableOpacity style={{ marginTop: 15, display: "flex", flexDirection: "row" }}>
+          <TouchableOpacity onPress={()=>nav.navigate('news', {news: item})} style={{ marginTop: 15, display: "flex", flexDirection: "row" }}>
             <Image
               source={{ uri: item.urlToImage }}
               style={{ height: 130, borderRadius: 10, width: 130 }}

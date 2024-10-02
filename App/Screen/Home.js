@@ -8,16 +8,28 @@ import { useTheme } from '../context/ThemeContext';
 import GlobalApi from '../Services/GlobalApi';
 
 const Home = () => {
+  const [active, setActive] = React.useState('latest');
   const { theme, toggleTheme, isLightTheme } = useTheme();
   const [headlines, setHeadlines] = React.useState([]);
+  const [everything, setEverything] = React.useState([])
 
   React.useEffect(() => {
+    
+    getCategoryApi(active)
+  }, [active]);
+
+  React.useEffect(()=>{
     getHeadlineApi();
-  }, []);
+  }, [])
 
   const getHeadlineApi = async () => {
     const res = (await GlobalApi.getHeadline()).data;
     setHeadlines(res.articles);
+  };
+
+  const getCategoryApi = async (category) => {
+    const res = (await GlobalApi.getByCategory(category)).data;
+    setEverything(res.articles);
   };
 
   return (
@@ -31,9 +43,10 @@ const Home = () => {
           color={theme.primary}
         />
       </View>
-      <Slider />
+      <Text style={{fontSize: 20, fontWeight: "bold", color: theme.header}}>Headlines</Text>
       <Headline headlines={headlines}/>
-      <List headlines={headlines}/>
+      <Slider active={active} setActive={setActive}/>
+      <List headlines={everything}/>
     </ScrollView>
   );
 };
